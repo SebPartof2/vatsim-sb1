@@ -33,7 +33,7 @@
   </head>
   <body>
     <main class="card" role="main">
-      <h1>VATUSA - vNAS Controllers</h1>
+      <h1>VATUSA - vNAS Controllers SWEATBOX-1</h1>
       <p class="lead">Shows VATUSA controllers connected to the vNAS Network.</p>
 
       <div class="controls">
@@ -50,11 +50,11 @@
       <div id="message" aria-live="polite"></div>
       <ul id="list" class="list" aria-live="polite"></ul>
 
-      <footer>Data source: <a href="https://live.env.vnas.vatsim.net/data-feed/controllers.json" target="_blank" rel="noreferrer noopener" style="color:#9fc3ff">controllers.json</a></footer>
+      <footer>Data source: <a href="https://sweatbox1.env.vnas.vatsim.net/data-feed/controllers.json" target="_blank" rel="noreferrer noopener" style="color:#9fc3ff">controllers.json</a></footer>
     </main>
 
     <script>
-  const UPSTREAM_URL = 'https://live.env.vnas.vatsim.net/data-feed/controllers.json';
+  const UPSTREAM_URL = 'https://sweatbox1.env.vnas.vatsim.net/data-feed/controllers.json';
   const PROXY_URL = '/proxy/controllers.json'; // local proxy provided by server.js (optional)
       const refreshBtn = document.getElementById('refresh');
       const statusEl = document.getElementById('status');
@@ -121,6 +121,13 @@
             // primary may be flagged by isPrimary or by matching primaryPositionId
             const primary = positions.find(p=>p.isPrimary) || positions.find(p=>p.positionId === c.primaryPositionId);
             if(!primary) continue;
+
+            // Filter: skip automated ATCTrainer connections
+            try{
+              if (JSON.stringify(c).indexOf('Automated connection created by ATCTrainer') !== -1) {
+                continue;
+              }
+            }catch(e){ /* ignore stringify errors and proceed */ }
 
             const callsign = (c.vatsimData && c.vatsimData.callsign) || primary.defaultCallsign || '';
             // never use positionName; prefer radioName

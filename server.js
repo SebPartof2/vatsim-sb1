@@ -11,7 +11,7 @@ app.use(express.static(path.resolve(__dirname)));
 // Simple proxy to controllers.json to avoid CORS while developing
 app.get('/proxy/controllers.json', async (req, res) => {
   try {
-    const upstream = 'https://live.env.vnas.vatsim.net/data-feed/controllers.json';
+    const upstream = 'https://sweatbox1.env.vnas.vatsim.net/data-feed/controllers.json';
     const resp = await fetch(upstream, { timeout: 10000 });
     const body = await resp.text();
     // forward status and content-type

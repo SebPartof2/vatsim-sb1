@@ -1,5 +1,5 @@
 export async function onRequest(context) {
-  const upstream = 'https://live.env.vnas.vatsim.net/data-feed/controllers.json';
+  const upstream = 'https://sweatbox1.env.vnas.vatsim.net/data-feed/controllers.json';
   try {
     const res = await fetch(upstream, { cf: { cacheEverything: false } });
     const body = await res.text();
